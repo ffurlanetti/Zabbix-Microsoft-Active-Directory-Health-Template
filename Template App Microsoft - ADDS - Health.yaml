@@ -282,14 +282,6 @@ zabbix_export:
             - tag: Application
               value: 'Active Directory - GPO Logs'
           triggers:
-            - uuid: 5b1d5c4ef6b04a56a87df46678e02ac4
-              expression: 'logeventid(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],,"5136")=1 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","SBTSCCM$")=0 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","SSCA2223$")=0 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","ADSetLogonHours")=0 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","pwdLastSet")=0 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","lockoutTime")=0 and find(/Template App Microsoft - ADDS - Audit Users. Groups. Policies/eventlog[Security,,,,5136,500,],1m,"like","logonHours")=0'
-              name: 'Group Policy changes, value changes, links, unlinks'
-              status: DISABLED
-              priority: INFO
-              manual_close: 'YES'
-              tags:
-                - tag: 'Active Directory GPO'
         - uuid: 9e7e5592d7b64f7fae81b448380263b3
           name: 'Group Policy creations'
           type: ZABBIX_ACTIVE
