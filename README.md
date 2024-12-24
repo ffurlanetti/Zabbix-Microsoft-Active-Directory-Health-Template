@@ -17,7 +17,7 @@ The Microsoft AD DS template for Zabbix includes items, triggers, graphs, and da
 
 ## Requirements
 
-- **Zabbix Server**: Version 6.4 or 7.0
+- **Zabbix Server**: Version 6.4 or 7.2
 - **Windows Server**: The template is compatible with Microsoft Windows Server 2012 R2, 2016, 2019, and 2022.
 - **Permissions**: Requires a domain user with read access to Active Directory and WMI permissions.
 
