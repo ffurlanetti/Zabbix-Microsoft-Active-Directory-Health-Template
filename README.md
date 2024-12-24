@@ -34,7 +34,7 @@ The Microsoft AD DS template for Zabbix includes items, triggers, graphs, and da
 ## Installation
 
 1. **Import the Template**: In Zabbix, go to _Configuration > Templates_, click _Import_, and upload the template file.
-2. **Assign Template to Hosts**: Apply the template to the Windows hosts that are configured as Active Directory Domain Controllers.
+2. **Assign Template to Hosts**: Apply the template "Template App Microsoft - ADDS - Health" to the Windows hosts that are configured as Active Directory Domain Controllers.
 3. **Set User Permissions**: Ensure that the Zabbix user running the checks has adequate permissions for WMI and AD data access.
 4. **Configure `zabbix_agent2.conf`**: Merge the contents of the current `zabbix_agent2.conf` with the settings provided in `example.zabbix_agent2_conf.txt` to ensure proper agent configuration.
 5. **Configure Macros**: Adjust any macros for specific thresholds, domain names, or performance parameters as needed.
