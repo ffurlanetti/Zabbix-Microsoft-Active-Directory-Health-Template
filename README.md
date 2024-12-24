@@ -1,6 +1,6 @@
 # Microsoft Active Directory Domain Services (AD DS) Monitoring Template for Zabbix
 
-This template is designed to monitor Microsoft Active Directory Domain Services (AD DS) in environments running Zabbix 6.4 and Zabbix 7.0. It provides comprehensive insights into the health, performance, and reliability of AD DS infrastructure, including critical parameters for domain controllers, replication health, user activity, and policy management.
+This template is designed to monitor Microsoft Active Directory Domain Services (AD DS) in environments running Zabbix 6.4 and Zabbix 7.2. It provides comprehensive insights into the health, performance, and reliability of AD DS infrastructure, including critical parameters for domain controllers, replication health, user activity, and policy management.
 
 ## Overview
 
