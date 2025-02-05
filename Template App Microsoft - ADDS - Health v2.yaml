@@ -1,0 +1,1210 @@
+zabbix_export:
+  version: '7.2'
+  template_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Templates/Applications
+  templates:
+    - uuid: 381279a4d51341c2b33af8698ebf4fb0
+      template: 'Template App Microsoft - ADDS - Domain Controller'
+      name: 'Template App Microsoft - ADDS - Domain Controller'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: 6f9d8f04d70a43dbb2fb07c2f9432be6
+          name: 'Security event log was cleared'
+          key: 'eventlog[Security,,,,1102,500,]'
+          value_type: LOG
+          triggers:
+            - uuid: ba177f0890574823b52796eefe9c37dd
+              expression: 'logeventid(/Template App Microsoft - ADDS - Domain Controller/eventlog[Security,,,,1102,500,],,1102)=1'
+              name: 'Security event log was cleared'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: d1667296183543a38dafb4cf95573745
+          name: 'User logged in via RDP'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4624,500,]'
+          value_type: LOG
+          triggers:
+            - uuid: b69f430e3f094edf8702a42e1e9fdf5a
+              expression: "find(/Template App Microsoft - ADDS - Domain Controller/eventlog[Security,,,,4624,500,],,\"like\",\"Logon Type:\t\t2\")=1"
+              name: 'User logged in via Console'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: 9e5fb30d13fd4f63ba80e3d3e99feb29
+              expression: "find(/Template App Microsoft - ADDS - Domain Controller/eventlog[Security,,,,4624,500,],,\"like\",\"Logon Type:\t\t10\")=1"
+              name: 'User logged in via RDP'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: f0c074381a98497f9cdd43bd5659eb29
+          name: 'Windows Domain Controller Port 389LDAP'
+          key: 'net.tcp.listen[389]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 8452bbb3a5af49a99584cbacc8a7a717
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[389],#1:now-0)=0'
+              name: 'Port LDAP'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+        - uuid: 698257f00235454b8273d95c2ac06b09
+          name: 'Windows Domain Controller Port 464Kerberos'
+          key: 'net.tcp.listen[464]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: c0152fdfe5d14955b00ce4389a3ba771
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[464],#1:now-0)=0'
+              name: 'Port Kerberos'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+        - uuid: b6e339dac3b14da2b7137c1d23bf694e
+          name: 'Windows Domain Controller Port 636LDAPS'
+          key: 'net.tcp.listen[636]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: fe7cc18fa82f45bfb5dab680930abeba
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[636],#1:now-0)=0'
+              name: 'Port LDAPS'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+        - uuid: 0b4197ed447b4b01a82abd8f2afead15
+          name: 'Windows Domain Controller Port 3268Global Catalog'
+          key: 'net.tcp.listen[3268]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 6f319d69528d4e6f92d023a82b35b536
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[3268],#1:now-0)=0'
+              name: 'Port Global Catalog 3268 - Disabled'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+            - uuid: df76e5bffc6e469482446ad421da9c8e
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[3268],#1:now-0)=1'
+              name: 'Port Global Catalog 3268 - Enabled'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+              description: |
+                Infrastructure Master Role Consideration:
+                
+                In environments with multiple domains, avoid placing the Infrastructure Master (IM) role on a DC that also functions as a GC server, unless all DCs in the domain are GCs. This is because the IM role is responsible for updating references from objects in its domain to objects in other domains, and having it on a GC can lead to outdated data.
+        - uuid: 77e2657d1690499a804362245336c95d
+          name: 'Windows Domain Controller Port 3269Global Catalog'
+          key: 'net.tcp.listen[3269]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 1869f43b0b1d46c19ba3ba0324e3a34c
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[3269],#1:now-0)=0'
+              name: 'Port Global Catalog 3269 - Disabled'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+              description: |
+                Infrastructure Master Role Consideration:
+                
+                In environments with multiple domains, avoid placing the Infrastructure Master (IM) role on a DC that also functions as a GC server, unless all DCs in the domain are GCs. This is because the IM role is responsible for updating references from objects in its domain to objects in other domains, and having it on a GC can lead to outdated data.
+            - uuid: cc93a426a95f490a97cf253b3f2db10f
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/net.tcp.listen[3269],#1:now-0)=1'
+              name: 'Port Global Catalog 3269 - Enabled'
+              url: 'http://support.microsoft.com/kb/832017#method68'
+              priority: HIGH
+              description: |
+                Infrastructure Master Role Consideration:
+                
+                In environments with multiple domains, avoid placing the Infrastructure Master (IM) role on a DC that also functions as a GC server, unless all DCs in the domain are GCs. This is because the IM role is responsible for updating references from objects in its domain to objects in other domains, and having it on a GC can lead to outdated data.
+        - uuid: c986999ace514fc3a37c312d0e9423eb
+          name: 'Windows Domain Controller NTDS DRA Inbound Full Sync Objects Remaining'
+          key: 'perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 13d350147d154ba29dc9ea0128f69527
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300],#1:now-0)>10'
+              name: 'NTDS DRA Inbound Full Sync Objects Remaining'
+              priority: WARNING
+            - uuid: 2cb75238a0f043ce9d9fee3d9b39485b
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300],#1:now-0)>25'
+              name: 'NTDS DRA Inbound Full Sync Objects Remaining'
+              priority: HIGH
+        - uuid: d80928f3c4084c398b39938e5014ce40
+          name: 'Windows Domain Controller NTDS DS Notify Queue Size'
+          key: 'perf_counter["\NTDS\DS Notify Queue Size",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: f33aec7e22f84cd28b475846301597c1
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\DS Notify Queue Size",300],#1:now-0)>10'
+              name: 'NTDS DS Notify Queue Size'
+              priority: WARNING
+            - uuid: 593c2f7151b64d98bfd79d8388fd3681
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\DS Notify Queue Size",300],#1:now-0)>25'
+              name: 'NTDS DS Notify Queue Size'
+              priority: HIGH
+        - uuid: fdad3da433234190accf5ebbf4d2144b
+          name: 'Windows Domain Controller NTDS LDAP Bind Time'
+          key: 'perf_counter["\NTDS\LDAP Bind Time",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: dc6e688393f0412e89083e23f44b7794
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\LDAP Bind Time",300],#1:now-0)>100'
+              name: 'NTDS LDAP Bind Time'
+              priority: WARNING
+            - uuid: d058dd4b67e74bc48c0cf2131dce04db
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\LDAP Bind Time",300],#1:now-0)>250'
+              name: 'NTDS LDAP Bind Time'
+              priority: HIGH
+        - uuid: d14b968792ce4677b24da30ba9622371
+          name: 'Windows Domain Controller NTDS SAM Account Group Evaluation Latency'
+          key: 'perf_counter["\NTDS\SAM Account Group Evaluation Latency",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 172848aa0b5f4621a167ba67127018c5
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300],#1:now-0)>100'
+              name: 'NTDS SAM Account Group Evaluation Latency'
+              priority: WARNING
+            - uuid: cbcdfec2f7354a3fad1392a79d9f4aec
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300],#1:now-0)>250'
+              name: 'NTDS SAM Account Group Evaluation Latency'
+              priority: HIGH
+        - uuid: a86991279f934e8192482543bdc6408e
+          name: 'State of Service "ADWS" (Active Directory Web Services)'
+          key: 'service.info["ADWS",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 3b8123f6d0dd4bcd8a5522308c1281c1
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["ADWS",state])<>0'
+              name: 'Service "ADWS" (Active Directory Web Services)'
+              priority: HIGH
+        - uuid: 7922b8a946c94f5986645e96aed1f882
+          name: 'State of Service "DFS" (DFS Namespace)'
+          key: 'service.info["Dfs",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 0796adbbf7594d26afe637131343bb53
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["Dfs",state])<>0'
+              name: 'State of Service "DFS" (DFS Namespace)'
+              priority: HIGH
+        - uuid: a57615d70661443ab1fc5d5f70b23460
+          name: 'State of service "DFSR" (DFS Replication)'
+          key: 'service.info["DFSR",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: cf1b9f749f8a4e21b28cab33e4406954
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["DFSR",state])<>0'
+              name: 'State of service "DFSR" (DFS Replication)'
+              priority: HIGH
+        - uuid: a6456496622c4e179ae01f1732543ca2
+          name: 'State of service "DNS" (DNS Server)'
+          key: 'service.info["DNS",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 7085c01f691e4ae68a75a03fe82046e7
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["DNS",state])<>0'
+              name: 'State of service "DNS" (DNS Server)'
+              priority: HIGH
+        - uuid: 79523563a95a4ad9a2cd69773352f47c
+          name: 'State of Service "IsmServ" (Intersite Messaging)'
+          key: 'service.info["IsmServ",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: ca496c164e7b4fd88a170ca062c6f04f
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["IsmServ",state])<>0'
+              name: 'State of Service "IsmServ" (Intersite Messaging)'
+              priority: HIGH
+        - uuid: 5bca012ec25c46de9fbc49719d8b2306
+          name: 'State of Service "kdc" (Kerberos Key Distribution Center)'
+          key: 'service.info["kdc",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: 216fa4187f514b0394e2edf9d1244a59
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["kdc",state])<>0'
+              name: 'State of Service "kdc" (Kerberos Key Distribution Center)'
+              priority: HIGH
+        - uuid: 8cc36b2f9e414c8992a9e3af6e79f949
+          name: 'State of service "NTDS" (Active Directory Domain Services)'
+          key: 'service.info["NTDS",state]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          valuemap:
+            name: 'Windows service state'
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+          triggers:
+            - uuid: bb0dc82eff534b15bf391b35a8bd40c2
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller/service.info["NTDS",state])<>0'
+              name: 'State of service "NTDS" (Active Directory Domain Services)'
+              priority: HIGH
+      tags:
+        - tag: App
+          value: 'MS ADDS'
+      dashboards:
+        - uuid: 413adacc40e64369ab34a0171c2751f0
+          name: 'Windows Domain Controller Server and Latency'
+          pages:
+            - widgets:
+                - type: graph
+                  width: '72'
+                  height: '5'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller'
+                        name: 'Windows Domain Controller NTDS Latency'
+                    - type: STRING
+                      name: reference
+                      value: AAATM
+                - type: graph
+                  'y': '5'
+                  width: '72'
+                  height: '5'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller'
+                        name: 'Windows Domain Controller NTDS Server'
+                    - type: STRING
+                      name: reference
+                      value: AAATN
+      valuemaps:
+        - uuid: cf03572239b944e09c2709255cf953e7
+          name: 'Windows service state'
+          mappings:
+            - value: '0'
+              newvalue: Running
+            - value: '1'
+              newvalue: Paused
+            - value: '2'
+              newvalue: 'Start pending'
+            - value: '3'
+              newvalue: 'Pause pending'
+            - value: '4'
+              newvalue: 'Continue pending'
+            - value: '5'
+              newvalue: 'Stop pending'
+            - value: '6'
+              newvalue: Stopped
+            - value: '7'
+              newvalue: Unknown
+            - value: '255'
+              newvalue: 'No such service'
+    - uuid: 5ee67edcb5714252840d768cb83b3d49
+      template: 'Template App Microsoft - ADDS - Domain Controller Performance'
+      name: 'Template App Microsoft - ADDS - Domain Controller Performance'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: 3558e0521a504b0082f7c22a58238036
+          name: 'Windows Domain Controller NTDS Address Book Client Sessions'
+          key: 'perf_counter["\NTDS\AB Client Sessions",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: cb68cb9f066e4fce9115b7e6ed10b196
+          name: 'Windows Domain Controller NTDS ATQ Estimated Queue Delay'
+          key: 'perf_counter["\NTDS\ATQ Estimated Queue Delay",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: dc5a5066bad3416b86981e29d1fc08fb
+          name: 'Windows Domain Controller NTDS ATQ Outstanding Queued Requests'
+          key: 'perf_counter["\NTDS\ATQ Outstanding Queued Requests",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 853ca7adb7d94813a6eeeaf0ada0149a
+          name: 'Windows Domain Controller NTDS ATQ Request Latency'
+          key: 'perf_counter["\NTDS\ATQ Request Latency",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 52a3b7192ba445ec82bced323d7a6d7b
+          name: 'Windows Domain Controller NTDS DRA Outbound Values (DNs only)/sec'
+          key: 'perf_counter["\NTDS\DRA Outbound Values (DNs only)/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: c5d1b264cf7e407c96371b4ae98d659b
+          name: 'Windows Domain Controller NTDS DRA Pending Replication Synchronizations'
+          key: 'perf_counter["\NTDS\DRA Pending Replication Synchronizations",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 598dbec445de4f63949c11876ce94902
+          name: 'Windows Domain Controller NTDS DS Directory Reads/sec'
+          key: 'perf_counter["\NTDS\DS Directory Reads/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: a5ef1d78b04f48039c9e0522f7c55c7d
+          name: 'Windows Domain Controller NTDS DS Directory Writes/sec'
+          key: 'perf_counter["\NTDS\DS Directory Writes/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: bc5d5a7cc8164ebaa4197084a9efb7fd
+          name: 'Windows Domain Controller NTDS DS Name Cache hit rate'
+          key: 'perf_counter["\NTDS\DS Name Cache hit rate",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: e9e8d51b00a04a62850516a6037b2df4
+          name: 'Windows Domain Controller NTDS DS Threads in Use'
+          key: 'perf_counter["\NTDS\DS Threads in Use",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 913826269f2c44f9a9ad253e7e48c745
+          name: 'Windows Domain Controller NTDS LDAP Active Threads'
+          key: 'perf_counter["\NTDS\LDAP Active Threads",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: e857bba44ca747adbb3c84139ac925af
+          name: 'Windows Domain Controller NTDS LDAP Client Sessions'
+          key: 'perf_counter["\NTDS\LDAP Client Sessions",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 56784964415a43618fa4b010a3aafd9e
+          name: 'Windows Domain Controller NTDS LDAP Searches/sec'
+          key: 'perf_counter["\NTDS\LDAP Searches/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 4cd33e5f04784f35b77a7cd78ba5ab0b
+          name: 'Windows Domain Controller NTDS LDAP Successful Binds/sec'
+          key: 'perf_counter["\NTDS\LDAP Successful Binds/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 772706310afb446f9d73877ba80deaeb
+          name: 'Windows Domain Controller NTDS NTLM Binds/sec'
+          key: 'perf_counter["\NTDS\NTLM Binds/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          units: /sec
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: c2053303850c4cd48c902f417110e9d0
+          name: 'Windows Domain Controller NTDS SAM Enumerations/sec'
+          key: 'perf_counter["\NTDS\SAM Enumerations/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+        - uuid: 072f8163f912485b81523c4ccf9a6209
+          name: 'Windows Domain Controller NTDS Simple Binds/sec'
+          key: 'perf_counter["\NTDS\Simple Binds/sec",300]'
+          delay: 90s
+          history: 60d
+          value_type: FLOAT
+          trends: 180d
+          tags:
+            - tag: Application
+              value: 'Windows Domain Controller NTDS'
+      tags:
+        - tag: App
+          value: 'MS ADDS'
+      dashboards:
+        - uuid: b3141dd071484faf8cf2b6fd1b2452f9
+          name: 'Windows Domain Controller Server and Latency Performance Counters'
+          pages:
+            - widgets:
+                - type: graph
+                  width: '72'
+                  height: '5'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+                        name: 'Windows Domain Controller NTDS Latency Performance Counters'
+                    - type: STRING
+                      name: reference
+                      value: AAATO
+                - type: graph
+                  'y': '5'
+                  width: '72'
+                  height: '6'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+                        name: 'Windows Domain Controller NTDS Server Performance Counters'
+                    - type: STRING
+                      name: reference
+                      value: AAATP
+        - uuid: 68dc47caaf9f417d95efa149b027a9f8
+          name: 'Windows Domain Controller Sessions and Rates Performance Counters'
+          pages:
+            - widgets:
+                - type: graph
+                  width: '72'
+                  height: '6'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+                        name: 'Windows Domain Controller NTDS Rates Performance Counters'
+                    - type: STRING
+                      name: reference
+                      value: AAATQ
+                - type: graph
+                  'y': '6'
+                  width: '72'
+                  height: '5'
+                  fields:
+                    - type: GRAPH
+                      name: graphid
+                      value:
+                        host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+                        name: 'Windows Domain Controller NTDS Sessions Performance Counters'
+                    - type: STRING
+                      name: reference
+                      value: AAATR
+    - uuid: 0677b2b58f194d7d9b9a88af41dde27f
+      template: 'Template App Microsoft - ADDS - Group Membership Changes'
+      name: 'Template App Microsoft - ADDS - Group Membership Changes'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: fddf626fce3e430caa0836bd99235c3b
+          name: 'Group Membership Changes'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,{$EVENTID_GROUPS},500,]'
+          history: 180d
+          value_type: LOG
+          description: |
+            eventlog[name,<regexp>,<severity>,<source>,<eventid>,<maxlines>,<mode>]
+            
+            EVENT ID FORMAT: ^(4728)$
+          tags:
+            - tag: Application
+              value: 'Windows Event Viewer'
+          triggers:
+            - uuid: a87365ae01af4237ace28bafa0cbcfc1
+              expression: 'find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,"like","Group Name: Account Operators")=1'
+              name: 'Group: Account Operators has been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: 82dec51abdcc405ea83eb74a941ba9d8
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tAdministrators\")=1"
+              name: 'Group: Administrators has been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: 110eebf20e9a4ccdaa8123fd4e5af84c
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tBackup Operators\")=1"
+              name: 'Group: Backup Operators has been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: 5d628116eec344c0b7119a25aa87fbfb
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tDomain Admins\")=1"
+              name: 'Group: Domain Adminshas been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: fda0e2c6bb9447758f580af8cd761c95
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tEnterprise Admins\")=1"
+              name: 'Group: Enterprise Admins has been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: 3e06423d9138453ebd8bb09216912b84
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tSchema Admins\")=1"
+              name: 'Group:Schema Admins has been changed'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: eeafb0ac21ab413885ef5a7c075a15cc
+              expression: "find(/Template App Microsoft - ADDS - Group Membership Changes/eventlog[Security,,,,{$EVENTID_GROUPS},500,],,\"like\",\"Group Name:\t\tServer Operators\")=1"
+              name: 'Group: Server Operators has been changed'
+              priority: INFO
+              manual_close: 'YES'
+      tags:
+        - tag: App
+          value: 'MS ADDS'
+      macros:
+        - macro: '{$EVENTID_GROUPS}'
+          value: ^(4732|4733|4735|4737|4756|4757)
+    - uuid: f7e57e97660644ffa65dae79733bfcc5
+      template: 'Template App Microsoft - ADDS - Group Policy Changes'
+      name: 'Template App Microsoft - ADDS - Group Policy Changes'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: b7acb27275694cb4b8120bab0b8de62d
+          name: 'A group policy object was modified'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4739,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+        - uuid: 52291bd211934adfa12ba780700aaf20
+          name: 'A directory service object was modified'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,5136,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+          triggers:
+            - uuid: 828d0e917eec4217954bb23278bec639
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5136,500,],,5136)=1'
+              name: 'A directory service object was modified (GPO changes)'
+              priority: INFO
+              manual_close: 'YES'
+            - uuid: a0386190d2494d1e8799b39b3dcf3179
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5136,500,],,5136)=1 and find(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5136,500,],,"like","CN=POLICIES")=1'
+              name: 'A group policy object was modified'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: f818aeca00be464d93867a57b17a3ec4
+          name: 'A directory service object was created'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,5137,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+          triggers:
+            - uuid: 17cbbbf2ebb54952a3a379ea7a96b4ed
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5137,500,],,5137)=1'
+              name: 'A directory service object was created (GPO Created)'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: e8a0f7c29e6747ef8d36fd96dcb65c94
+          name: 'A directory service object was undeleted'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,5138,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+          triggers:
+            - uuid: f9b9212f508543dc96648d30880d6e2d
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5138,500,],,5138)=1'
+              name: 'A directory service object was undeleted'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: fe74421233cd4fd3a1aa381a4608c635
+          name: 'A directory service object was moved'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,5139,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+          triggers:
+            - uuid: a430c14a3ee040888f568f01783de8c5
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5139,500,],,5139)=1'
+              name: 'A directory service object was moved'
+              priority: INFO
+              manual_close: 'YES'
+        - uuid: 69862914a68442ce9c770b92a2ee0898
+          name: 'A directory service object was deleted'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,5141,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+          triggers:
+            - uuid: f2227015532d4a22b6693e3c20ac8764
+              expression: 'logeventid(/Template App Microsoft - ADDS - Group Policy Changes/eventlog[Security,,,,5141,500,],,5141)=1'
+              name: 'A directory service object was deleted (GPO Deleted)'
+              priority: INFO
+              manual_close: 'YES'
+    - uuid: 21051f8bfd3f4cf19f4cee5bc52fe4eb
+      template: 'Template App Microsoft - ADDS - Health'
+      name: 'Template App Microsoft - ADDS - Health'
+      templates:
+        - name: 'Template App Microsoft - ADDS - Domain Controller'
+        - name: 'Template App Microsoft - ADDS - Domain Controller Performance'
+        - name: 'Template App Microsoft - ADDS - Group Membership Changes'
+        - name: 'Template App Microsoft - ADDS - Group Policy Changes'
+        - name: 'Template App Microsoft - ADDS - User Account Management'
+        - name: 'Template App Microsoft - Windows Pending Restart'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: 5846b232a591456da345aee10faa1156
+          name: 'Active Directory - DCDIAG - DFSREvent'
+          type: DEPENDENT
+          key: adds.dfsrevent
+          history: 1w
+          value_type: LOG
+          master_item:
+            key: adds.health
+          tags:
+            - tag: 'Active Directory'
+              value: 'FSMO Rules'
+          triggers:
+            - uuid: 9860624ba126429f9f1da5875d6ae4af
+              expression: 'find(/Template App Microsoft - ADDS - Health/adds.dfsrevent,24h,"like","DFSREvent")=1'
+              name: 'Active Directory - DCDIAG - DFSREvent'
+              priority: AVERAGE
+              description: |
+                There are warning or error events within the last 24 hours after the SYSVOL has been shared.
+                Failing SYSVOL replication problems may cause Group Policy problems.
+              manual_close: 'YES'
+        - uuid: 2e7a0eea74e0441a8c25874f9e638710
+          name: 'Active Directory - DCDIAG'
+          key: adds.health
+          delay: 1d;h12m0
+          history: 1w
+          value_type: LOG
+          tags:
+            - tag: 'Active Directory'
+              value: 'FSMO Rules'
+          triggers:
+            - uuid: 71c9a5fd5cb0402caabc444d4772a398
+              expression: 'find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","Connectivity")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","Advertising")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","FrsEvent")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","SysVolCheck")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","KccEvent")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","KnowsOfRoleHolders")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","MachineAccount")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","NCSecDesc")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","NetLogons")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","ObjectsReplicated")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","Replications")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","RidManager")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","Services")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","VerifyReferences")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","DomainDnsZones")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","ForestDnsZones")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","CheckSDRefDom")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","CrossRefValidation")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","CrossRefValidation")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","LocatorCheck")=1 or find(/Template App Microsoft - ADDS - Health/adds.health,30m,"like","Intersite")=1'
+              name: 'Active Directory - DCDIAG'
+              priority: WARNING
+              manual_close: 'YES'
+              tags:
+                - tag: ADDS
+                  value: health
+        - uuid: 6b9e39a1142a48f6b3268ce26d99f5a9
+          name: 'Active Directory - User krbtgt LastPasswordSet'
+          key: adds.krbtgt
+          delay: 1d
+          history: 1w
+          value_type: LOG
+          preprocessing:
+            - type: TRIM
+              parameters:
+                - '......................... '
+          tags:
+            - tag: Application
+              value: 'Active Directory - Security'
+          triggers:
+            - uuid: f6807112fd864592a4763e48101d2daa
+              expression: 'last(/Template App Microsoft - ADDS - Health/adds.krbtgt)="True"'
+              name: 'Security Alert: krbtgt LastPasswordSet is grater then 6 months'
+              priority: HIGH
+              description: |
+                Reference:
+                
+                https://github.com/microsoftarchive/New-KrbtgtKeys.ps1
+                
+                Obs: Activating this item in only one DC of the domain is enough.
+              tags:
+                - tag: 'Active Directory'
+                  value: Security
+        - uuid: b09625d8d47741edab380252084da996
+          name: 'Active Directory - DCDIAG - SystemLog'
+          type: DEPENDENT
+          key: adds.systemlog
+          history: 1w
+          value_type: LOG
+          master_item:
+            key: adds.health
+          tags:
+            - tag: 'Active Directory'
+              value: 'FSMO Rules'
+          triggers:
+            - uuid: 31c238d87ed443e78ace7fa93e0c5919
+              expression: 'find(/Template App Microsoft - ADDS - Health/adds.systemlog,15m:now-12h,"like","SystemLog")=1'
+              name: 'Active Directory - DCDIAG - SystemLog'
+              status: DISABLED
+              priority: INFO
+              tags:
+                - tag: 'Active Directory'
+                  value: 'FSMO Rules'
+      tags:
+        - tag: App
+          value: 'MS ADDS'
+      macros:
+        - macro: '{$SERVICE.APP.MATCHES}'
+          value: ^(NTDS|ADWS|IsmServ|kdc|AzureADPasswordProtectionDCAgent|)$
+    - uuid: 20bcd773f5d5475e9e858d37f190aea6
+      template: 'Template App Microsoft - ADDS - User Account Management'
+      name: 'Template App Microsoft - ADDS - User Account Management'
+      groups:
+        - name: Templates/Applications
+      items:
+        - uuid: 6822630902684635979f9e2ac6184834
+          name: 'User authentication - Failure Audit'
+          key: 'eventlog[Security,,"Failure Audit",,{$EVENTID_FAILURE},500,]'
+          value_type: LOG
+        - uuid: 6fb472e844b94903a64800b09f765601
+          name: 'USN rollback Detection - Security'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,2095,500,]'
+          history: 180d
+          value_type: LOG
+          description: |
+            [name,<regexp>,<severity>,<source>,<eventid>,<maxlines>,<mode>]
+            
+            
+            https://learn.microsoft.com/en-us/troubleshoot/windows-server/identity/detect-and-recover-from-usn-rollback
+            
+            Microsoft-Windows-ActiveDirectory_DomainService
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: 113cd52f6f2441c48f1e8e517c9be69a
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,2095,500,],#1,"2095")=1'
+              name: 'USN rollback Detection - Security'
+              priority: DISASTER
+        - uuid: 2c87bf471e9e4e54bb412c876b44e240
+          name: 'A user account was created'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4720,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: 656d63f8168b47bfb96be64fca4da263
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4720,500,],,"4720")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4720,500,],5s)=0'
+              name: 'User Created'
+              priority: INFO
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: 38ee24a0bdb649608e28eb5b5ef9f7b8
+          name: 'A user account was enabled'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4722,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: c994bd9145374becaada754e735c058e
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4722,500,],,"4722")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4722,500,],5s)=0'
+              name: 'User Enabled'
+              priority: INFO
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: f769b83dd24e4eeaa491471a23dd4b91
+          name: 'A user attempted to change their password'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4723,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+        - uuid: 1f74fba566664a97820082fe934a9ef5
+          name: 'An administrator reset a user''s password'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4724,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: d40f6e6f6f2c4b0cb5f28314f8d6513a
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4724,500,],,"4722")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4724,500,],5s)=0'
+              name: 'User Password Reset'
+              priority: INFO
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: 7650f4761ee544c290a5ea2d4daa152f
+          name: 'A user account was disabled'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4725,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: e9bea1ac10df4209a5ae7ab2d612a1f2
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4725,500,],,"4725")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4725,500,],5s)=0'
+              name: 'User Disabled'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: 9a39d050bdec429caec04b2f39686944
+          name: 'A user account was deleted'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4726,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: c4ccb473e39944458d96ae86cbd4b8cf
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4726,500,],,"4726")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4726,500,],5s)=0'
+              name: 'User Deleted'
+              priority: INFO
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: 6241f053bcd14176992c611c11ca7ee6
+          name: 'A user account was changed'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4738,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+        - uuid: 942077f90a434b00ae88bda21e0cf2e7
+          name: 'A user account was locked out'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4740,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - GPO Logs'
+        - uuid: 1a5bd87516324a99b8d2c9ad0d56fbb3
+          name: 'A user account was unlocked'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,,,,4767,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: 1bd5fe51f8fd4b6db13ae8361892e6de
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4767,500,],,"4767")=1 and nodata(/Template App Microsoft - ADDS - User Account Management/eventlog[Security,,,,4767,500,],5s)=0'
+              name: 'User Unlocked'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                - tag: 'Active Directory User'
+        - uuid: 71376b1bb24f456aa795a8991aa01337
+          name: 'User KRBTGT - Password Reset'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[Security,^(krbtgt)$,"Information",,^(4724|4738)$,500,]'
+          history: 180d
+          value_type: LOG
+          tags:
+            - tag: Application
+              value: 'Active Directory - User KRBTGT'
+        - uuid: db99b144849f4600a2c87ad11744c1f3
+          name: 'USN rollback Detection - System'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[System,,,,2095,500,]'
+          history: 180d
+          value_type: LOG
+          description: |
+            [name,<regexp>,<severity>,<source>,<eventid>,<maxlines>,<mode>]
+            
+            https://learn.microsoft.com/en-us/troubleshoot/windows-server/identity/detect-and-recover-from-usn-rollback
+            
+            Microsoft-Windows-ActiveDirectory_DomainService
+          tags:
+            - tag: Application
+              value: 'Active Directory - User Logs'
+          triggers:
+            - uuid: 746ad62e2cd24282931e6d1e1f80c8a9
+              expression: 'logeventid(/Template App Microsoft - ADDS - User Account Management/eventlog[System,,,,2095,500,],#1,"2095")=1'
+              name: 'USN rollback Detection - System'
+              priority: DISASTER
+      tags:
+        - tag: App
+          value: 'MS ADDS'
+      macros:
+        - macro: '{$EVENTID_FAILURE}'
+          value: ^(4625|4740|4771|529|6273)$
+        - macro: '{$EVENTID_SUCCESS}'
+          value: ^(4728|4729|4662|5136)$
+  graphs:
+    - uuid: 7a70da9028474083a52633dba4fce97e
+      name: 'Windows Domain Controller NTDS Latency'
+      graph_items:
+        - color: 00C8C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller'
+            key: 'perf_counter["\NTDS\LDAP Bind Time",300]'
+        - sortorder: '1'
+          color: C8C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller'
+            key: 'perf_counter["\NTDS\SAM Account Group Evaluation Latency",300]'
+    - uuid: a4ff3c190274414b83a2d8279b1d8cde
+      name: 'Windows Domain Controller NTDS Latency Performance Counters'
+      graph_items:
+        - color: C80000
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\ATQ Estimated Queue Delay",300]'
+        - sortorder: '1'
+          color: 00C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\ATQ Outstanding Queued Requests",300]'
+        - sortorder: '2'
+          color: 0000C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\ATQ Request Latency",300]'
+    - uuid: cb2b013f1cbd4594986728de9902e3bd
+      name: 'Windows Domain Controller NTDS Rates Performance Counters'
+      graph_items:
+        - color: C80000
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DRA Outbound Values (DNs only)/sec",300]'
+        - sortorder: '1'
+          color: 00C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DS Directory Reads/sec",300]'
+        - sortorder: '2'
+          color: 0000C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DS Directory Writes/sec",300]'
+        - sortorder: '3'
+          color: C800C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\LDAP Searches/sec",300]'
+        - sortorder: '4'
+          color: 00C8C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\LDAP Successful Binds/sec",300]'
+        - sortorder: '5'
+          color: C8C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\NTLM Binds/sec",300]'
+        - sortorder: '6'
+          color: C8C8C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\SAM Enumerations/sec",300]'
+        - sortorder: '7'
+          color: '960000'
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\Simple Binds/sec",300]'
+        - sortorder: '8'
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DS Name Cache hit rate",300]'
+    - uuid: 7b0870b54ce94c9a8b398ce182245419
+      name: 'Windows Domain Controller NTDS Server'
+      graph_items:
+        - sortorder: '1'
+          color: 00C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller'
+            key: 'perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300]'
+        - sortorder: '4'
+          color: C8C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller'
+            key: 'perf_counter["\NTDS\DS Notify Queue Size",300]'
+    - uuid: 8adc80c21380404285af9c9c12de3ea6
+      name: 'Windows Domain Controller NTDS Server Performance Counters'
+      graph_items:
+        - color: C80000
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\ATQ Outstanding Queued Requests",300]'
+        - sortorder: '1'
+          color: 0000C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DRA Outbound Values (DNs only)/sec",300]'
+        - sortorder: '2'
+          color: C800C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DRA Pending Replication Synchronizations",300]'
+        - sortorder: '3'
+          color: C8C8C8
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\DS Threads in Use",300]'
+        - sortorder: '4'
+          color: '960000'
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\LDAP Active Threads",300]'
+    - uuid: c0ebcc564a914999a9a8909136a3f3fe
+      name: 'Windows Domain Controller NTDS Sessions Performance Counters'
+      graph_items:
+        - color: C80000
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\AB Client Sessions",300]'
+        - sortorder: '1'
+          color: 00C800
+          item:
+            host: 'Template App Microsoft - ADDS - Domain Controller Performance'
+            key: 'perf_counter["\NTDS\LDAP Client Sessions",300]'
