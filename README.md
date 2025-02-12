@@ -4,6 +4,8 @@ This template is designed to monitor Microsoft Active Directory Domain Services 
 
 ## Overview
 
+***Version 2 is being tested yet***
+
 The Microsoft AD DS template for Zabbix includes items, triggers, graphs, and dashboards to provide real-time monitoring of Active Directory components. By using this template, administrators can proactively identify and resolve issues with domain controllers, monitor replication status, track user activity, and enforce security policies.
 ![My Image](https://github.com/ffurlanetti/Zabbix-Microsoft-Active-Directory-Health-Template/blob/main/ZabbixProblems_Dashboard.png)
 
