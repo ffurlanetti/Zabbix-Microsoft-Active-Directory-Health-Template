@@ -22,7 +22,7 @@ The Microsoft AD DS template for Zabbix includes items, triggers, graphs, and da
 - **Zabbix Server**: Version 7.0 to 7.2
 - **Windows Server**: The template is compatible with Microsoft Windows Server 2012 R2, 2016, 2019, and 2022.
 - **Permissions**: Requires a domain user with read access to Active Directory and WMI permissions.
-- **Enable Advanced Audit Configuration**: The options are available in the file DC_Audit_GPO.htm, it needs to be enable on Domain Controllers.
+- **Enable Advanced Audit Configuration**: The options are available in the file **DC_Audit_GPO.htm**, it needs to be enable on Domain Controllers.
 - **Active Checks**: The hostname of the server needs to be the same in the Zabbix object and the Zabbix Agent config file.
 
 ## Template Details
