@@ -900,7 +900,7 @@ zabbix_export:
               value: Users
           triggers:
             - uuid: cdc01889f6af4a4ca5fa1fe4799a1aa8
-              expression: 'last(/Template App Microsoft - ADDS - User Account Management v3/adds.krbtgt,#1:now-1d)="True"'
+              expression: 'last(/Template App Microsoft - ADDS - User Account Management v3/adds.krbtgt)="True"'
               name: 'Security Alert: krbtgt LastPasswordSet is greater than 6 months'
               priority: HIGH
               manual_close: 'YES'
