@@ -687,7 +687,7 @@ zabbix_export:
           key: adds.health
           delay: 1d;h12m0
           history: 1w
-          value_type: LOG
+          value_type: TEXT
           tags:
             - tag: ADDS
               value: FSMO

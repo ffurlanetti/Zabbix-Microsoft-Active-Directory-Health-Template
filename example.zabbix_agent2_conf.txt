@@ -29,5 +29,5 @@ UnsafeUserParameters=1
 # Mandatory: no
 # Default:
 # UserParameter=
-UserParameter=adds.health,cmd.exe /c "dcdiag.exe | findstr.exe /i /c:"failed test""
+UserParameter=adds.health,cmd.exe /c "dcdiag.exe | findstr.exe /i /c:""failed test"""
 UserParameter=adds.krbtgt,powershell.exe -ExecutionPolicy Bypass -Command "(Get-ADUser 'krbtgt' -Property PasswordLastSet).PasswordLastSet -lt (Get-Date).AddMonths(-6)"
