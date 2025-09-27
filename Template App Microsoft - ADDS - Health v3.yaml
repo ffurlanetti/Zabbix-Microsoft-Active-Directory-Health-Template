@@ -438,7 +438,7 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: 8452bbb3a5af49a99584cbacc8a7a717
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[389],#1:now-0)=0'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[389])=0'
               name: 'Port LDAP'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -454,7 +454,7 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: c0152fdfe5d14955b00ce4389a3ba771
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[464],#1:now-0)=0'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[464])=0'
               name: 'Port Kerberos'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -470,7 +470,7 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: fe7cc18fa82f45bfb5dab680930abeba
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[636],#1:now-0)=0'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[636])=0'
               name: 'Port LDAPS'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -486,7 +486,7 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: 6f319d69528d4e6f92d023a82b35b536
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3268],#1:now-0)=0'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3268])=0'
               name: 'Port Global Catalog 3268 - Disabled'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -497,7 +497,7 @@ zabbix_export:
                 
                 https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/fsmo-placement-and-optimization-on-ad-dcs
             - uuid: df76e5bffc6e469482446ad421da9c8e
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3268],#1:now-0)=1'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3268])=1'
               name: 'Port Global Catalog 3268 - Enabled'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -519,7 +519,7 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: 1869f43b0b1d46c19ba3ba0324e3a34c
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3269],#1:now-0)=0'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3269])=0'
               name: 'Port Global Catalog 3269 - Disabled'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -530,7 +530,7 @@ zabbix_export:
                 
                 https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/fsmo-placement-and-optimization-on-ad-dcs
             - uuid: cc93a426a95f490a97cf253b3f2db10f
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3269],#1:now-0)=1'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/net.tcp.listen[3269])=1'
               name: 'Port Global Catalog 3269 - Enabled'
               url: 'http://support.microsoft.com/kb/832017#method68'
               priority: HIGH
@@ -552,11 +552,11 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: 13d350147d154ba29dc9ea0128f69527
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300],#1:now-0)>10'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300])>10'
               name: 'NTDS DRA Inbound Full Sync Objects Remaining'
               priority: WARNING
             - uuid: 2cb75238a0f043ce9d9fee3d9b39485b
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300],#1:now-0)>25'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DRA Inbound Full Sync Objects Remaining",300])>25'
               name: 'NTDS DRA Inbound Full Sync Objects Remaining'
               priority: HIGH
         - uuid: d80928f3c4084c398b39938e5014ce40
@@ -571,11 +571,11 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: f33aec7e22f84cd28b475846301597c1
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DS Notify Queue Size",300],#1:now-0)>10'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DS Notify Queue Size",300])>10'
               name: 'NTDS DS Notify Queue Size'
               priority: WARNING
             - uuid: 593c2f7151b64d98bfd79d8388fd3681
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DS Notify Queue Size",300],#1:now-0)>25'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\DS Notify Queue Size",300])>25'
               name: 'NTDS DS Notify Queue Size'
               priority: HIGH
         - uuid: fdad3da433234190accf5ebbf4d2144b
@@ -590,11 +590,11 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: dc6e688393f0412e89083e23f44b7794
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\LDAP Bind Time",300],#1:now-0)>100'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\LDAP Bind Time",300])>100'
               name: 'NTDS LDAP Bind Time'
               priority: WARNING
             - uuid: d058dd4b67e74bc48c0cf2131dce04db
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\LDAP Bind Time",300],#1:now-0)>250'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\LDAP Bind Time",300])>250'
               name: 'NTDS LDAP Bind Time'
               priority: HIGH
         - uuid: d14b968792ce4677b24da30ba9622371
@@ -609,11 +609,11 @@ zabbix_export:
               value: 'Windows Domain Controller NTDS'
           triggers:
             - uuid: 172848aa0b5f4621a167ba67127018c5
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300],#1:now-0)>100'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300])>100'
               name: 'NTDS SAM Account Group Evaluation Latency'
               priority: WARNING
             - uuid: cbcdfec2f7354a3fad1392a79d9f4aec
-              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300],#1:now-0)>250'
+              expression: 'last(/Template App Microsoft - ADDS - Domain Controller v3/perf_counter["\NTDS\SAM Account Group Evaluation Latency",300])>250'
               name: 'NTDS SAM Account Group Evaluation Latency'
               priority: HIGH
       tags:
