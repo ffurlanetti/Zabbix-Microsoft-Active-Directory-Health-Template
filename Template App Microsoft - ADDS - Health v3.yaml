@@ -28,6 +28,7 @@ zabbix_export:
           name: 'Directory service objects changes'
           type: ZABBIX_ACTIVE
           key: 'eventlog[Security,,,,{$EVENTS_DSO},,skip]'
+          delay: 5m
           history: 180d
           value_type: LOG
           tags:
@@ -913,6 +914,7 @@ zabbix_export:
           name: 'User account changes'
           type: ZABBIX_ACTIVE
           key: 'eventlog[Security,,,,{$EVENTID_USERS},,skip]'
+          delay: 5m
           value_type: LOG
           tags:
             - tag: ADDS
@@ -1020,6 +1022,7 @@ zabbix_export:
           name: 'USN rollback Detection - System'
           type: ZABBIX_ACTIVE
           key: 'eventlog[System,,,,2095,,skip]'
+          delay: 5m
           history: 180d
           value_type: LOG
           description: |
